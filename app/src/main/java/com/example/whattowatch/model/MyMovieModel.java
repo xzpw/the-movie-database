@@ -1,6 +1,6 @@
 package com.example.whattowatch.model;
 
-public class MovieModel {
+public class MyMovieModel {
 
     private  String mTitle;
     private  String mOverview;
@@ -9,13 +9,14 @@ public class MovieModel {
     private  String mImageLink;
     //private  int mType;
 
-    public MovieModel(String title, String overview, String date, String rate, String imageLink) {
+    public MyMovieModel(String title, String overview, String date, String rate, String imageLink) {
         mTitle = title;
         mOverview = overview;
         mDate = date;
         mRate = rate;
         mImageLink = imageLink;
     }
+    public MyMovieModel(){}
 
     public String getTitle() {
         return mTitle;
