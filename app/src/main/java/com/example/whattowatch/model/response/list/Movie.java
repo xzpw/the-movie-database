@@ -1,4 +1,4 @@
-package com.example.whattowatch.model;
+package com.example.whattowatch.model.response.list;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

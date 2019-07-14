@@ -22,7 +22,7 @@ public class MovieService {
 
             api = new Retrofit.Builder()
                     .client(client)
-                    .baseUrl("https://api.themoviedb.org/3/")
+                    .baseUrl("https://api.themoviedb.org/3/movie/")
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()

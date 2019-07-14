@@ -5,11 +5,11 @@ public class MyMovieModel {
     private  String mTitle;
     private  String mOverview;
     private  String mDate;
-    private  String mRate;
+    private  Float mRate;
     private  String mImageLink;
     //private  int mType;
 
-    public MyMovieModel(String title, String overview, String date, String rate, String imageLink) {
+    public MyMovieModel(String title, String overview, String date, Float rate, String imageLink) {
         mTitle = title;
         mOverview = overview;
         mDate = date;
@@ -42,11 +42,11 @@ public class MyMovieModel {
         mDate = date;
     }
 
-    public String getRate() {
+    public Float getRate() {
         return mRate;
     }
 
-    public void setRate(String rate) {
+    public void setRate(Float rate) {
         mRate = rate;
     }
 

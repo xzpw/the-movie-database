@@ -29,6 +29,6 @@ public class PagerAdaptor extends FragmentStatePagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
 
-        return MovieListFragment.Type.values()[position].name();
+        return "page " + position;
     }
 }
