@@ -1,4 +1,4 @@
-package com.example.whattowatch.model;
+package com.example.whattowatch.model.mymodel;
 
 public class MyMovieModel {
 
@@ -7,14 +7,24 @@ public class MyMovieModel {
     private  String mDate;
     private  Float mRate;
     private  String mImageLink;
-    //private  int mType;
+    private Integer mId;
 
-    public MyMovieModel(String title, String overview, String date, Float rate, String imageLink) {
+    public Integer getId() {
+        return mId;
+    }
+
+    public void setId(Integer id) {
+        mId = id;
+    }
+//private  int mType;
+
+    public MyMovieModel(String title, String overview, String date, Float rate, String imageLink, Integer id) {
         mTitle = title;
         mOverview = overview;
         mDate = date;
         mRate = rate;
         mImageLink = imageLink;
+        mId = id;
     }
     public MyMovieModel(){}
 

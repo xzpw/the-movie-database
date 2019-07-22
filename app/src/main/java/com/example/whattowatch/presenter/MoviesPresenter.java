@@ -6,14 +6,13 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.whattowatch.Repository.IMovieRepository;
 import com.example.whattowatch.mdbApi.MovieService;
-import com.example.whattowatch.model.MovieMapper;
-import com.example.whattowatch.model.MyMovieModel;
+import com.example.whattowatch.model.mappers.MovieMapper;
+import com.example.whattowatch.model.mymodel.MyMovieModel;
 import com.example.whattowatch.view.MovieListsView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -25,10 +24,19 @@ public class MoviesPresenter extends MvpPresenter<MovieListsView> implements IMo
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     private List<MyMovieModel> data = new ArrayList<>();
     private final String language = "en";
-    private final String apiKey = "6d7cf38fae41aabbd628fc135149f671";
     IMovieRepository repo;
     private static final String LoG= "mylog";
     private Type SECTION_TYPE = null;
+
+
+
+    public MoviesPresenter(){}
+    public MoviesPresenter(int t){
+        repo = this;
+        SECTION_TYPE = Type.values()[t];                //задаем тип погучаемой страницы
+        Log.d(LoG, "MoviesPresenter()_type");
+    }
+
 
     public enum Type {
 
@@ -41,7 +49,6 @@ public class MoviesPresenter extends MvpPresenter<MovieListsView> implements IMo
             this.section = section;
         }
         private String section;
-
         public String getSection() {
             return section;
         }
@@ -51,7 +58,6 @@ public class MoviesPresenter extends MvpPresenter<MovieListsView> implements IMo
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
         Log.d(LoG, "onFistViewAttach");
-        getViewState().showProgres();
 
     }
 
@@ -59,23 +65,22 @@ public class MoviesPresenter extends MvpPresenter<MovieListsView> implements IMo
     public void attachView(MovieListsView view) {
         super.attachView(view);
         Log.d(LoG, "attachView");
-        if(data.isEmpty())loadMovieList(SECTION_TYPE.getSection(),1);   //Для устранения множественных загрузок
+        if(data.isEmpty()){             //Для устранения множественных загрузок
+            loadMovieList(SECTION_TYPE.getSection(),1);
+        }   else  {
+            getViewState().showMovies(data);
+        }
     }
 
-    public MoviesPresenter(){ }
 
-    public MoviesPresenter(int t){
-        repo = this;
-        SECTION_TYPE = Type.values()[t];                //задаем тип погучаемой страницы
-        Log.d(LoG, "MoviesPresenter()_type");
-    }
+
 
 
     @Override
     public void loadMovieList(String selection, int page) {
         Log.d(LoG,"loadMovieList()");
         Disposable d = MovieService.getApi()
-                .getMovies(selection, language, page, apiKey)
+                .getMovies(selection, language, page, MovieService.API_KEY)
                 .map(data -> MovieMapper.convertListToMyModel(data.getResults()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -87,6 +92,11 @@ public class MoviesPresenter extends MvpPresenter<MovieListsView> implements IMo
                         error -> getViewState().showError()
                 );
         compositeDisposable.add(d);
+    }
+
+    @Override
+    public void loadDetailMovie(int id) {
+
     }
 
     @Override

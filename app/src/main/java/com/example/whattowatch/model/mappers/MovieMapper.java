@@ -1,5 +1,6 @@
-package com.example.whattowatch.model;
+package com.example.whattowatch.model.mappers;
 
+import com.example.whattowatch.model.mymodel.MyMovieModel;
 import com.example.whattowatch.model.response.list.Movie;
 
 import java.util.ArrayList;
@@ -13,7 +14,8 @@ public class MovieMapper {
                 movie.getOverview(),
                 movie.getReleaseDate(),
                 movie.getVoteAverage().floatValue(),
-                movie.getPosterPath() );
+                movie.getPosterPath(),
+                movie.getId());
     }
 
     public static List<MyMovieModel> convertListToMyModel(List<Movie> movies){

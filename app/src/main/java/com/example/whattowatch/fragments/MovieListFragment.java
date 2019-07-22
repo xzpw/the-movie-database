@@ -9,20 +9,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.example.whattowatch.R;
 import com.example.whattowatch.adaptor.ListAdaptor;
-import com.example.whattowatch.model.MyMovieModel;
+import com.example.whattowatch.model.mymodel.MyMovieModel;
 import com.example.whattowatch.presenter.MoviesPresenter;
 import com.example.whattowatch.view.MovieListsView;
 
 import java.util.List;
 
-public class MovieListFragment extends MvpAppCompatFragment implements MovieListsView {
+public class MovieListFragment extends BaseFragment implements MovieListsView {
 
     private static final String ARG_FRAGMENT_NUMBER = "current_fragment_number";
     private static final String LOG = "mylog";
@@ -77,10 +76,17 @@ public class MovieListFragment extends MvpAppCompatFragment implements MovieList
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+       Log.d("mylog", "MovieListFragment: onResume()");
+    }
+
+
+    @Override
     public void showMovies(List<MyMovieModel> movies) {
         Log.d(LOG,"showMovies() size: " + movies.size());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setAdapter(new ListAdaptor(movies));
+        mRecyclerView.setAdapter(new ListAdaptor(movies, getRouter()));
 
     }
 

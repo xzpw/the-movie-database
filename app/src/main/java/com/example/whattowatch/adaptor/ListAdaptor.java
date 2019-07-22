@@ -8,22 +8,34 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.whattowatch.App;
 import com.example.whattowatch.R;
 import com.example.whattowatch.mdbApi.IMovieAPI;
-import com.example.whattowatch.model.MyMovieModel;
+import com.example.whattowatch.model.mymodel.MyMovieModel;
+import com.example.whattowatch.navigation.Router;
+import com.example.whattowatch.presenter.MainPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
+
+import javax.inject.Inject;
 
 public class ListAdaptor extends RecyclerView.Adapter<ListAdaptor.MovieHolder> {
 
     private List<MyMovieModel> mMovieList = new ArrayList<>();
-    public ListAdaptor(List<MyMovieModel> movies) {
+    private Router navigationRouter;
+
+    public ListAdaptor(List<MyMovieModel> movies, Router router) {
+
+        navigationRouter = router;
         mMovieList = movies;
+        App.getInstance().getAppComponent().inject(this);
     }
+
+
 
     @NonNull
     @Override
@@ -35,6 +47,7 @@ public class ListAdaptor extends RecyclerView.Adapter<ListAdaptor.MovieHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MovieHolder movieHolder, int i) {
+
         movieHolder.bind(i);
     }
 
@@ -71,6 +84,13 @@ public class ListAdaptor extends RecyclerView.Adapter<ListAdaptor.MovieHolder> {
                     .load(IMovieAPI.BASE_PICTURE+mMovieList.get(i).getImageLink())
                     .fitCenter()
                     .into(imageView);
+
+            itemView.setOnClickListener(l->{
+                Toast.makeText(itemView.getContext(),
+                        "Показать детализацию фильма: "+mMovieList.get(i).getId(),
+                        Toast.LENGTH_SHORT).show();
+                navigationRouter.showDetailView(mMovieList.get(i).getId());  // запустили фрагмент
+            });
 
         }
     }

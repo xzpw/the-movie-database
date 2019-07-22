@@ -1,4 +1,4 @@
-package com.example.whattowatch.model;
+package com.example.whattowatch.model.mymodel;
 
 public class MyDetailModel {
 
