@@ -45,7 +45,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView{
         Log.d("mylog","MainActivity showDetailView");
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.cont, DetailFragment.newInstance(id))
+                .add(R.id.cont, DetailFragment.newInstance(id))
                 .addToBackStack("")
                 .commit();
     }
