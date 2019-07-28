@@ -1,5 +1,6 @@
 package com.example.whattowatch.ui.adaptor;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,8 +24,10 @@ public abstract class EndlessScrollListner extends RecyclerView.OnScrollListener
         super.onScrolled(recyclerView, dx, dy);
         currentItems = manager.getChildCount();
         totalItems = manager.getItemCount();
+        scrolledItems = manager.findFirstVisibleItemPosition();
         scrolledItems = manager.findFirstCompletelyVisibleItemPosition();
         if( !loading && currentItems + scrolledItems == totalItems){
+
             loading = true;
             page++;
             loadMore(page);

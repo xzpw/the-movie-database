@@ -18,7 +18,7 @@ public interface MovieListsView extends MvpView {
     void showError();
 
     @StateStrategyType(SkipStrategy.class)
-    void onRefresh(boolean refreshEnable);
+    void onRefreshed();
 
-    void onLoading(boolean loading, List<MyMovieModel> data);
+    void onLoaded(List<MyMovieModel> data);
 }

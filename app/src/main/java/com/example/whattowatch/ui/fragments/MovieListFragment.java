@@ -1,6 +1,7 @@
 package com.example.whattowatch.ui.fragments;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -26,7 +27,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
-public class MovieListFragment extends BaseFragment implements MovieListsView, SwipeRefreshLayout.OnRefreshListener{
+public class MovieListFragment extends BaseFragment implements MovieListsView, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String ARG_FRAGMENT_NUMBER = "current_fragment_number";
     private static final String LOG = "mylog";
@@ -35,9 +36,10 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
     MoviesPresenter mMoviesPresenter;
 
     @ProvidePresenter()
-    MoviesPresenter provideMoviesPresenter(){
-        return new MoviesPresenter( getArguments().getInt(ARG_FRAGMENT_NUMBER));  // передача начальных параметров в презентор
+    MoviesPresenter provideMoviesPresenter() {
+        return new MoviesPresenter(getArguments().getInt(ARG_FRAGMENT_NUMBER));  // передача начальных параметров в презентор
     }
+
     private RecyclerView mRecyclerView;
 
     private AlertDialog progressDialog;
@@ -51,7 +53,7 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
 
     public static MovieListFragment newInstance(int currentFragmentNumber) {
         Bundle args = new Bundle();
-        args.putInt(ARG_FRAGMENT_NUMBER, currentFragmentNumber );
+        args.putInt(ARG_FRAGMENT_NUMBER, currentFragmentNumber);
         MovieListFragment fragment = new MovieListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -60,7 +62,7 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.movie_list_fragment,container,false);
+        View view = inflater.inflate(R.layout.movie_list_fragment, container, false);
         return view;
     }
 
@@ -84,16 +86,17 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
 
     private void initRecycler() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        listAdaptor = new ListAdaptor(null,getRouter());
+        listAdaptor = new ListAdaptor(null, getRouter());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(listAdaptor);
+
         endlessScrollListner = new EndlessScrollListner(layoutManager) {
             @Override
             public void loadMore(int page) {
+                //переопределили абстрактрый метод, каждый раз инкриментируем страницу и загружаем
                 mMoviesPresenter.loadMovieList(page);
                 mRecyclerView.getAdapter().notifyDataSetChanged();
-                Toast.makeText(getContext(),"Loading..", Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(getContext(), "Loading..", Toast.LENGTH_SHORT).show();
             }
         };
         mRecyclerView.addOnScrollListener(endlessScrollListner);
@@ -107,7 +110,7 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
 
     @Override
     public void showProgres(boolean isVisible) {
-        if(isVisible){
+        if (isVisible) {
             progressDialog.show();
         } else {
             progressDialog.hide();
@@ -115,18 +118,16 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
 
     }
 
-
-
     @Override
     public void onResume() {
         super.onResume();
-       Log.d("mylog", "MovieListFragment: onResume()");
+        Log.d("mylog", "MovieListFragment: onResume()");
     }
 
 
     @Override
     public void showMovies(List<MyMovieModel> movies) {
-        Log.d(LOG,"showMovies() size: " + movies.size());
+        Log.d(LOG, "showMovies() size: " + movies.size());
         listAdaptor.setMovieList(movies);
         listAdaptor.notifyDataSetChanged();
 
@@ -135,34 +136,26 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
 
     @Override
     public void showError() {
-        Log.d(LOG,"showError()");
+        Log.d(LOG, "showError()");
     }
 
     @Override
-    public void onRefresh(boolean refreshEnable) {
+    public void onRefreshed() {
 
-        if(refreshEnable) {
-            mMoviesPresenter.onRefresh();
-            mRecyclerView.getAdapter().notifyDataSetChanged();
-
-        } else {
             swipeRefreshLayout.setRefreshing(false);
-        }
     }
 
     @Override
-    public void onLoading(boolean loading, List<MyMovieModel> data) {
-        if(loading){
-            listAdaptor.setMovieList(data);
-            listAdaptor.notifyDataSetChanged();
-        } else {
-            endlessScrollListner.setLoading(false);
-        }
+    public void onLoaded(List<MyMovieModel> data) {
+        // обновляем данные адаптера
+        listAdaptor.setMovieList(data);
+        listAdaptor.notifyDataSetChanged();
+        endlessScrollListner.setLoading(false);
     }
 
 
     @Override
     public void onRefresh() {
-        onRefresh(true);
+        mMoviesPresenter.loadMovieList();
     }
 }

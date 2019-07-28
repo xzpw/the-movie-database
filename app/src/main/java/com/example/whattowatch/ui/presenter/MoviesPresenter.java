@@ -77,27 +77,19 @@ public class MoviesPresenter extends MvpPresenter<MovieListsView> {
         }
     }
 
-    public void onRefresh(){
-
-        loadMovieList();
-        getViewState().onRefresh(false);
-    }
-
-
 
     public void loadMovieList() {
         Log.d(LoG,"loadMovieList()");
-
+    //Для загрузки и обновления первой страницы
         Disposable d = moviesRepo.getMoviesFirstPageByType(SECTION_TYPE.getSection())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(movieList -> {
-                            Log.d(LoG,"Subscribe " + data.size());
                             data.clear();
                             data.addAll(movieList);
                             getViewState().showProgres(false);
-                            getViewState().onRefresh(false);
                             getViewState().showMovies(data);
+                            getViewState().onRefreshed();
 
                 },
                         error -> getViewState().showError());
@@ -107,17 +99,18 @@ public class MoviesPresenter extends MvpPresenter<MovieListsView> {
 
     public void loadMovieList( int page) {
         Log.d(LoG,"loadMovieList()");
-
+        // Метод для загрузки страница, и обновления
         Disposable d = moviesRepo.getMoviesPageByType(SECTION_TYPE.getSection(),page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(movieList -> {
-                            Log.d(LoG,"Subscribe " + data.size());
-                            data.addAll(movieList);
-                            getViewState().showProgres(false);
-                            getViewState().onLoading(false, movieList);
 
-                        },
+                            data.addAll(movieList);
+                            Log.d(LoG,"Subscribe " + data.size());
+                            getViewState().showProgres(false);
+                            getViewState().onLoaded(data);              //new data in RV
+
+                            },
                         error -> getViewState().showError());
         compositeDisposable.add(d);
     }

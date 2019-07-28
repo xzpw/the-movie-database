@@ -36,10 +36,10 @@ public class PagerAdaptor extends FragmentStatePagerAdapter {
                 return "Популярные";
 
             case 2:
-                return "Сейчас";
+                return "Скоро";
 
             case 3:
-                return "Скоро";
+                return "Сейчас";
 
                 default:
                     return "error";
