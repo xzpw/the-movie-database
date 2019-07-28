@@ -1,10 +1,9 @@
-package com.example.whattowatch.view;
+package com.example.whattowatch.ui.view;
 
 import com.arellomobile.mvp.MvpView;
-import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
-import com.example.whattowatch.navigation.Router;
+import com.example.whattowatch.ui.Router;
 
 
 public interface MainView extends MvpView, Router {

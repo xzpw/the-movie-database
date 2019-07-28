@@ -1,5 +1,7 @@
 package com.example.whattowatch.model.mymodel;
 
+import java.util.List;
+
 public class MyDetailModel {
 
     private Integer id;
@@ -10,6 +12,15 @@ public class MyDetailModel {
     private Float rate;
     private String overview;
     private String releaseDate;
+    private List<MyVideoModel> videos;
+
+    public List <MyVideoModel> getVideos() {
+        return videos;
+    }
+
+    public void setVideos(List<MyVideoModel> videos) {
+        this.videos = videos;
+    }
 
     public MyDetailModel(Integer id, String name, String posterLink, String backdroLink, Integer runtime, Float rate, String overview, String releaseDate) {
         this.id = id;

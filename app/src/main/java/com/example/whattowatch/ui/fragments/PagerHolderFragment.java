@@ -1,16 +1,16 @@
-package com.example.whattowatch.fragments;
+package com.example.whattowatch.ui.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.whattowatch.adaptor.PagerAdaptor;
+import com.example.whattowatch.ui.adaptor.PagerAdaptor;
 import com.example.whattowatch.R;
 
 public class PagerHolderFragment extends Fragment {
@@ -38,6 +38,7 @@ public class PagerHolderFragment extends Fragment {
     private void initViewPager(@NonNull View view) {
         mPager = view.findViewById(R.id.pager);
         mTabLayout = view.findViewById(R.id.tab_layout);
+        mPager.setOffscreenPageLimit(4);
         mPager.setAdapter(new PagerAdaptor(getActivity()
                 .getSupportFragmentManager()));
         mTabLayout.setupWithViewPager(mPager);

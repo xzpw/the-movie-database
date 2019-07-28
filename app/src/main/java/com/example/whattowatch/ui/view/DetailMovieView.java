@@ -1,12 +1,7 @@
-package com.example.whattowatch.view;
+package com.example.whattowatch.ui.view;
 
 import com.arellomobile.mvp.MvpView;
-import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.example.whattowatch.model.mymodel.MyDetailModel;
-import com.example.whattowatch.model.mymodel.MyMovieModel;
-
-import java.util.List;
 
 public interface DetailMovieView extends MvpView {
 

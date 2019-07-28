@@ -1,13 +1,40 @@
 package com.example.whattowatch.model.mymodel;
 
-public class MyMovieModel {
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity
+public class MyMovieModel {
+    @PrimaryKey@NonNull
     private  String mTitle;
     private  String mOverview;
     private  String mDate;
     private  Float mRate;
     private  String mImageLink;
     private Integer mId;
+    private  String type;
+
+
+
+    public MyMovieModel(String title, String overview, String date, Float rate, String imageLink, Integer id, String type) {
+        mTitle = title;
+        mOverview = overview;
+        mDate = date;
+        mRate = rate;
+        mImageLink = imageLink;
+        mId = id;
+        this.type = type;
+    }
+    public MyMovieModel(){}
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        type = type;
+    }
 
     public Integer getId() {
         return mId;
@@ -16,17 +43,6 @@ public class MyMovieModel {
     public void setId(Integer id) {
         mId = id;
     }
-//private  int mType;
-
-    public MyMovieModel(String title, String overview, String date, Float rate, String imageLink, Integer id) {
-        mTitle = title;
-        mOverview = overview;
-        mDate = date;
-        mRate = rate;
-        mImageLink = imageLink;
-        mId = id;
-    }
-    public MyMovieModel(){}
 
     public String getTitle() {
         return mTitle;

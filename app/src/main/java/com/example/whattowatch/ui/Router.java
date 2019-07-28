@@ -1,4 +1,4 @@
-package com.example.whattowatch.navigation;
+package com.example.whattowatch.ui;
 
 public interface Router {
 

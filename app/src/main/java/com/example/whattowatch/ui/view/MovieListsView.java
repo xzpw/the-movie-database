@@ -1,4 +1,4 @@
-package com.example.whattowatch.view;
+package com.example.whattowatch.ui.view;
 
 import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
@@ -11,12 +11,14 @@ import java.util.List;
 public interface MovieListsView extends MvpView {
 
     @StateStrategyType(SkipStrategy.class)
-    void showProgres();
-
-    @StateStrategyType(SkipStrategy.class)
-    void hideProgres();
+    void showProgres(boolean isVisible);
 
     void showMovies(List<MyMovieModel> movies);
 
     void showError();
+
+    @StateStrategyType(SkipStrategy.class)
+    void onRefresh(boolean refreshEnable);
+
+    void onLoading(boolean loading, List<MyMovieModel> data);
 }

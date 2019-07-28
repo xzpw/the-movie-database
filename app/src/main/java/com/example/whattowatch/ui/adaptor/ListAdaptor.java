@@ -1,7 +1,7 @@
-package com.example.whattowatch.adaptor;
+package com.example.whattowatch.ui.adaptor;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +13,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.whattowatch.App;
 import com.example.whattowatch.R;
-import com.example.whattowatch.mdbApi.IMovieAPI;
+import com.example.whattowatch.api.IMovieAPI;
 import com.example.whattowatch.model.mymodel.MyMovieModel;
-import com.example.whattowatch.navigation.Router;
-import com.example.whattowatch.presenter.MainPresenter;
+import com.example.whattowatch.ui.Router;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 public class ListAdaptor extends RecyclerView.Adapter<ListAdaptor.MovieHolder> {
 
@@ -33,6 +30,10 @@ public class ListAdaptor extends RecyclerView.Adapter<ListAdaptor.MovieHolder> {
         navigationRouter = router;
         mMovieList = movies;
         App.getInstance().getAppComponent().inject(this);
+    }
+
+    public void setMovieList(List<MyMovieModel> data){
+        mMovieList = data;
     }
 
 
@@ -53,7 +54,11 @@ public class ListAdaptor extends RecyclerView.Adapter<ListAdaptor.MovieHolder> {
 
     @Override
     public int getItemCount() {
-        return mMovieList.size();
+        if (mMovieList == null){
+            return 0;
+        }else {
+            return mMovieList.size();
+        }
     }
 
     public class MovieHolder extends RecyclerView.ViewHolder{

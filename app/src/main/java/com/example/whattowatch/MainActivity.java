@@ -5,14 +5,10 @@ import android.util.Log;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.example.whattowatch.di.modules.MainPresenterModule;
-import com.example.whattowatch.fragments.DetailFragment;
-import com.example.whattowatch.fragments.PagerHolderFragment;
-import com.example.whattowatch.presenter.MainPresenter;
-import com.example.whattowatch.view.MainView;
-
-import javax.inject.Inject;
+import com.example.whattowatch.ui.fragments.DetailFragment;
+import com.example.whattowatch.ui.fragments.PagerHolderFragment;
+import com.example.whattowatch.ui.presenter.MainPresenter;
+import com.example.whattowatch.ui.view.MainView;
 
 public class MainActivity extends MvpAppCompatActivity implements MainView{
 

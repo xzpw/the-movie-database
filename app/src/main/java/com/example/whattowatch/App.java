@@ -4,7 +4,8 @@ import android.app.Application;
 
 import com.example.whattowatch.di.AppComponent;
 import com.example.whattowatch.di.DaggerAppComponent;
-import com.example.whattowatch.di.modules.MainPresenterModule;
+import com.example.whattowatch.di.modules.DatabaseModule;
+import com.example.whattowatch.di.modules.NetworkModule;
 
 public class App extends Application {
 
@@ -16,8 +17,9 @@ public class App extends Application {
 
         instance = this;
         appComponent = DaggerAppComponent.builder()
-                .mainPresenterModule(new MainPresenterModule())
-                .build();
+        .networkModule(new NetworkModule())
+        .databaseModule(new DatabaseModule(getApplicationContext()))
+        .build();
     }
 
     public  static App getInstance(){

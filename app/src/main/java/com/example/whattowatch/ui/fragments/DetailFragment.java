@@ -1,35 +1,39 @@
-package com.example.whattowatch.fragments;
+package com.example.whattowatch.ui.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bumptech.glide.Glide;
 import com.example.whattowatch.R;
-import com.example.whattowatch.mdbApi.IMovieAPI;
+import com.example.whattowatch.api.IMovieAPI;
 import com.example.whattowatch.model.mymodel.MyDetailModel;
-import com.example.whattowatch.model.response.detail.DetailMovie;
-import com.example.whattowatch.navigation.Router;
-import com.example.whattowatch.presenter.DetailPresenter;
-import com.example.whattowatch.view.DetailMovieView;
+import com.example.whattowatch.ui.adaptor.VideoAdapter;
+import com.example.whattowatch.ui.presenter.DetailPresenter;
+import com.example.whattowatch.ui.view.DetailMovieView;
 
-public class DetailFragment extends BaseFragment implements DetailMovieView {
+public class DetailFragment extends BaseFragment implements DetailMovieView{
 
     private static final String ARG_MOVIE_ID = "movie_id";
-    private TextView tvTitle, tvDate, tvOverView;//, tvRate;
+    private TextView tvTitle, tvDate, tvOverView;
     private ImageView ivPoster, ivBackDrop;
     private RatingBar rateBar;
-
+    private RecyclerView rvTrailerVideo;
+   // private SwipeRefreshLayout swipeRefreshLayout;
     @InjectPresenter
     DetailPresenter presenter;
 
@@ -64,6 +68,12 @@ public class DetailFragment extends BaseFragment implements DetailMovieView {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//
+//            }
+//        });
     }
 
     private void initView(@NonNull View view) {
@@ -74,6 +84,12 @@ public class DetailFragment extends BaseFragment implements DetailMovieView {
         tvTitle = view.findViewById(R.id.detail_title);
         rateBar = view.findViewById(R.id.detail_rate);
         tvOverView = view.findViewById(R.id.detail_overview);
+        //swipeRefreshLayout = view.findViewById(R.id.swipe_container);
+
+        rvTrailerVideo = view.findViewById(R.id.rv_video_trailer);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        rvTrailerVideo.setLayoutManager(layoutManager);
+        rvTrailerVideo.setItemAnimator(new DefaultItemAnimator());
 
     }
 
@@ -103,6 +119,7 @@ public class DetailFragment extends BaseFragment implements DetailMovieView {
         tvTitle.setText(movie.getName());
         rateBar.setRating(movie.getRate());
         tvOverView.setText(movie.getOverview());
+        rvTrailerVideo.setAdapter(new VideoAdapter(movie.getVideos()));
 
     }
 
