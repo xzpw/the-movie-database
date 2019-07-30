@@ -6,24 +6,33 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class MyMovieModel {
-    @PrimaryKey@NonNull
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @PrimaryKey(autoGenerate = true)
+    private Integer id;
     private  String mTitle;
     private  String mOverview;
     private  String mDate;
     private  Float mRate;
     private  String mImageLink;
-    private Integer mId;
+    private Integer movieId;
     private  String type;
 
 
 
-    public MyMovieModel(String title, String overview, String date, Float rate, String imageLink, Integer id, String type) {
+    public MyMovieModel(String title, String overview, String date, Float rate, String imageLink, Integer idMovie, String type) {
         mTitle = title;
         mOverview = overview;
         mDate = date;
         mRate = rate;
         mImageLink = imageLink;
-        mId = id;
+        movieId = idMovie;
         this.type = type;
     }
     public MyMovieModel(){}
@@ -33,15 +42,15 @@ public class MyMovieModel {
     }
 
     public void setType(String type) {
-        type = type;
+        this.type = type;
     }
 
-    public Integer getId() {
-        return mId;
+    public Integer getMovieId() {
+        return movieId;
     }
 
-    public void setId(Integer id) {
-        mId = id;
+    public void setMovieId(Integer movieId) {
+        this.movieId = movieId;
     }
 
     public String getTitle() {

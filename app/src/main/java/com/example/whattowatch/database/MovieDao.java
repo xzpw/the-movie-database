@@ -15,6 +15,7 @@ import io.reactivex.Flowable;
 @Dao
 public interface MovieDao {
 
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAllMovies(List<MyMovieModel> movies);
 
@@ -24,6 +25,7 @@ public interface MovieDao {
     @Query("SELECT * FROM MyMovieModel WHERE type = :type")
     Flowable<List<MyMovieModel>> getMoviesByType (String type);
 
-
+    @Query("DELETE FROM MyMovieModel WHERE type = :type")
+    void deleteAllbyType(String type);
 
 }

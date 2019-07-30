@@ -8,18 +8,16 @@ import com.example.whattowatch.model.mymodel.MyMovieModel;
 import com.example.whattowatch.model.mymodel.MyVideoModel;
 
 import java.util.List;
-import java.util.Observable;
 
 import javax.inject.Inject;
 
-import io.reactivex.Completable;
 import io.reactivex.Flowable;
 
 public class MoviesRepo {
 
   private  RemoteMovieRepo remoteMovieRepo;
   private  LocalMoviesRepo localMoviesRepo;
-
+  private final int FIRST_PAGE = 1;
     @Inject
     public MoviesRepo(RemoteMovieRepo remoteMovieRepo, LocalMoviesRepo localMoviesRepo) {
         this.remoteMovieRepo = remoteMovieRepo;
@@ -31,13 +29,14 @@ public class MoviesRepo {
     }
 
     public Flowable <List<MyMovieModel>> getMoviesFirstPageByType(String type){
-        return remoteMovieRepo.getMoviesList(type,1)
+        return remoteMovieRepo.getMoviesList(type,FIRST_PAGE)
                 .map(data -> {
                     return MovieMapper.convertListToMyModel(data.getResults(),type);  // преващаем в наш тип
                 })
                 .flatMap(localData -> {
-                    return localMoviesRepo.insertAll(localData)     //Записываем в бд
-                            .andThen(Flowable.just(localData));   // возвращаем результат
+                    return localMoviesRepo.deleteAllbyType(type)              //удаляем старые записи
+                            .andThen(localMoviesRepo.insertAll(localData)     //Записываем в бд
+                            .andThen(Flowable.just(localData)));            // возвращаем результат
                 }).onErrorResumeNext(localMoviesRepo.getAllMoviesByType(type));  //в случае ошибки берем данные с БД
     }
 

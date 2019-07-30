@@ -64,7 +64,7 @@ public class ListAdaptor extends RecyclerView.Adapter<ListAdaptor.MovieHolder> {
     public class MovieHolder extends RecyclerView.ViewHolder{
 
         private ImageView imageView;
-        private TextView tvTitle, tvDate;
+        private TextView tvTitle, tvDate, tvRate;
         private RatingBar ratingBar;
 
 
@@ -74,7 +74,7 @@ public class ListAdaptor extends RecyclerView.Adapter<ListAdaptor.MovieHolder> {
             imageView = itemView.findViewById(R.id.rv_imageView);
             tvDate = itemView.findViewById(R.id.rv_date);
             ratingBar = itemView.findViewById(R.id.ratingBar);
-            //tvRate = itemView.findViewById(R.id.rv_rate);
+            tvRate = itemView.findViewById(R.id.rv_rate);
 
             tvTitle = itemView.findViewById(R.id.rv_title);
         }
@@ -84,7 +84,7 @@ public class ListAdaptor extends RecyclerView.Adapter<ListAdaptor.MovieHolder> {
             tvTitle.setText(mMovieList.get(i).getTitle());
             tvDate.setText(mMovieList.get(i).getDate());
             ratingBar.setRating(mMovieList.get(i).getRate());
-
+            tvRate.setText(mMovieList.get(i).getRate() + "/10");
             Glide.with(itemView.getContext())
                     .load(IMovieAPI.BASE_PICTURE+mMovieList.get(i).getImageLink())
                     .fitCenter()

@@ -28,4 +28,10 @@ public class LocalMoviesRepo {
     public Flowable<List<MyMovieModel>> getAllMoviesByType(String type){
         return dao.getMoviesByType(type);
     }
+
+    public Completable deleteAllbyType(String type){
+        return Completable.fromAction(()->{
+            dao.deleteAllbyType(type);
+        });
+    }
 }
