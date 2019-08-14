@@ -71,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:id="@+id/rv_video_trailer"
-            android:background="@color/blck">
+            android:background="@color/wihte">
 
         </androidx.recyclerview.widget.RecyclerView>
 

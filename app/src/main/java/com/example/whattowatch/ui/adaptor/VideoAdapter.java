@@ -14,11 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.whattowatch.R;
 import com.example.whattowatch.model.mymodel.MyVideoModel;
-import com.example.whattowatch.repository.RemoteMovieRepo;
+import com.example.whattowatch.repository.RemoteMovieSource;
 
-import java.text.Format;
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder> {
 
@@ -60,7 +58,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
         void bind(int position){
             String thumbnailKey = data.get(position).getKey();
             Uri uri = Uri.parse(String
-                    .format(RemoteMovieRepo.VIDEO_YOUTUBE_THUMBNAIL,thumbnailKey));
+                    .format(RemoteMovieSource.VIDEO_YOUTUBE_THUMBNAIL,thumbnailKey));
             Log.d("mylog",uri.toString());
             Glide.with(itemView.getContext())
                     .load(uri)

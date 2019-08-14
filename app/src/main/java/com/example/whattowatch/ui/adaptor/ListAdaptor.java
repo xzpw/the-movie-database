@@ -91,10 +91,8 @@ public class ListAdaptor extends RecyclerView.Adapter<ListAdaptor.MovieHolder> {
                     .into(imageView);
 
             itemView.setOnClickListener(l->{
-                Toast.makeText(itemView.getContext(),
-                        "Показать детализацию фильма: "+mMovieList.get(i).getId(),
-                        Toast.LENGTH_SHORT).show();
-                navigationRouter.showDetailView(mMovieList.get(i).getId());  // запустили фрагмент
+
+                navigationRouter.showDetailView(mMovieList.get(i).getMovieId());
             });
 
         }

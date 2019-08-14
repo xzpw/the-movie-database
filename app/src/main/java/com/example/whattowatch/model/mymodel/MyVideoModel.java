@@ -1,7 +1,21 @@
 package com.example.whattowatch.model.mymodel;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class MyVideoModel {
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @PrimaryKey
+    private Integer id;
     private String name;
     private String key;
 

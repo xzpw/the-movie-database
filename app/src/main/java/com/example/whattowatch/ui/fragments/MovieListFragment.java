@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -21,7 +20,7 @@ import com.example.whattowatch.R;
 import com.example.whattowatch.ui.adaptor.EndlessScrollListner;
 import com.example.whattowatch.ui.adaptor.ListAdaptor;
 import com.example.whattowatch.model.mymodel.MyMovieModel;
-import com.example.whattowatch.ui.presenter.MoviesPresenter;
+import com.example.whattowatch.ui.presenter.MovieListPresenter;
 import com.example.whattowatch.ui.view.MovieListsView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -33,11 +32,11 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
     private static final String LOG = "mylog";
 
     @InjectPresenter
-    MoviesPresenter mMoviesPresenter;
+    MovieListPresenter mMovieListPresenter;
 
     @ProvidePresenter()
-    MoviesPresenter provideMoviesPresenter() {
-        return new MoviesPresenter(getArguments().getInt(ARG_FRAGMENT_NUMBER));  // передача начальных параметров в презентор
+    MovieListPresenter provideMoviesPresenter() {
+        return new MovieListPresenter(getArguments().getInt(ARG_FRAGMENT_NUMBER));  // передача начальных параметров в презентор
     }
 
     private RecyclerView mRecyclerView;
@@ -69,6 +68,7 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d("mylog", "MovieListFragment: onCreateView");
         initView(view);
     }
 
@@ -94,9 +94,8 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
             @Override
             public void loadMore(int page) {
                 //переопределили абстрактрый метод, каждый раз инкриментируем страницу и загружаем
-                mMoviesPresenter.loadMovieList(page);
+                mMovieListPresenter.loadMovieList(page);
                 mRecyclerView.getAdapter().notifyDataSetChanged();
-                Toast.makeText(getContext(), "Loading..", Toast.LENGTH_SHORT).show();
             }
         };
         mRecyclerView.addOnScrollListener(endlessScrollListner);
@@ -104,9 +103,12 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        Log.e("mylog", "MovieListFragment: onSaveInstanceState");
+
         super.onSaveInstanceState(outState);
 
     }
+
 
     @Override
     public void showProgres(boolean isVisible) {
@@ -119,11 +121,23 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("mylog","MovieListFragment Adapter count "+ listAdaptor.getItemCount());
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         Log.d("mylog", "MovieListFragment: onResume()");
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e("mylog", "MovieListFragment: onDestroy()");
+
+    }
 
     @Override
     public void showMovies(List<MyMovieModel> movies) {
@@ -156,6 +170,6 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
 
     @Override
     public void onRefresh() {
-        mMoviesPresenter.loadMovieList();
+        mMovieListPresenter.loadMovieList();
     }
 }

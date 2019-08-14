@@ -5,7 +5,8 @@ import com.example.whattowatch.ui.adaptor.ListAdaptor;
 import com.example.whattowatch.di.modules.DatabaseModule;
 import com.example.whattowatch.di.modules.NetworkModule;
 import com.example.whattowatch.ui.presenter.DetailPresenter;
-import com.example.whattowatch.ui.presenter.MoviesPresenter;
+import com.example.whattowatch.ui.presenter.MovieListPresenter;
+import com.example.whattowatch.ui.presenter.SearchPresenter;
 
 import javax.inject.Singleton;
 
@@ -19,6 +20,7 @@ public interface AppComponent {
 
     void inject(ListAdaptor listAdaptor);
     void inject(MainActivity mainActivity);
-    void inject(MoviesPresenter moviesPresenter);
+    void inject(MovieListPresenter movieListPresenter);
     void inject(DetailPresenter detailPresenter);
+    void inject(SearchPresenter searchPresenter);
 }

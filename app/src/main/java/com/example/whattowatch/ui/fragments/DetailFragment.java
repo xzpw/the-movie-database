@@ -22,9 +22,13 @@ import com.bumptech.glide.Glide;
 import com.example.whattowatch.R;
 import com.example.whattowatch.api.IMovieAPI;
 import com.example.whattowatch.model.mymodel.MyDetailModel;
+import com.example.whattowatch.model.mymodel.MyVideoModel;
 import com.example.whattowatch.ui.adaptor.VideoAdapter;
 import com.example.whattowatch.ui.presenter.DetailPresenter;
 import com.example.whattowatch.ui.view.DetailMovieView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
 
 public class DetailFragment extends BaseFragment implements DetailMovieView{
 
@@ -33,6 +37,7 @@ public class DetailFragment extends BaseFragment implements DetailMovieView{
     private ImageView ivPoster, ivBackDrop;
     private RatingBar rateBar;
     private RecyclerView rvTrailerVideo;
+    private FloatingActionButton fabFavotite;
    // private SwipeRefreshLayout swipeRefreshLayout;
     @InjectPresenter
     DetailPresenter presenter;
@@ -90,21 +95,19 @@ public class DetailFragment extends BaseFragment implements DetailMovieView{
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         rvTrailerVideo.setLayoutManager(layoutManager);
         rvTrailerVideo.setItemAnimator(new DefaultItemAnimator());
+        fabFavotite = view.findViewById(R.id.fab);
+        fabFavotite.setOnClickListener(l -> presenter.add2Favorites());
+
+    }
+
+
+    @Override
+    public void showProgress(boolean isVisible) {
 
     }
 
     @Override
-    public void showProgres() {
-
-    }
-
-    @Override
-    public void hideProgres() {
-
-    }
-
-    @Override
-    public void showMovie(MyDetailModel movie) {
+    public void showMovieInfo(MyDetailModel movie) {
         Glide.with(getContext())
                 .load(IMovieAPI.BASE_PICTURE + movie.getBackdroLink())
                 .fitCenter()
@@ -119,12 +122,24 @@ public class DetailFragment extends BaseFragment implements DetailMovieView{
         tvTitle.setText(movie.getName());
         rateBar.setRating(movie.getRate());
         tvOverView.setText(movie.getOverview());
-        rvTrailerVideo.setAdapter(new VideoAdapter(movie.getVideos()));
+
 
     }
 
     @Override
-    public void showError() {
+    public void showMovieTrailer(List<MyVideoModel> videoModel) {
+        rvTrailerVideo.setAdapter(new VideoAdapter(videoModel));
+    }
+
+    @Override
+    public void showErrorInfo() {
 
     }
+
+    @Override
+    public void showErrorTrailer() {
+
+    }
+
+
 }

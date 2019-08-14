@@ -3,9 +3,11 @@ package com.example.whattowatch.ui;
 public interface Router {
 
 
-    void shwoPagerView();
+    void showPagerView();
 
     void showDetailView(int idMovie); // будет принимать итем для детализации
 
-    void showFavorits();
+    void showFavorites();
+
+    void showSearch();
 }
