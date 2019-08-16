@@ -6,6 +6,7 @@ import com.example.whattowatch.di.modules.DatabaseModule;
 import com.example.whattowatch.di.modules.NetworkModule;
 import com.example.whattowatch.ui.presenter.DetailPresenter;
 import com.example.whattowatch.ui.presenter.MovieListPresenter;
+import com.example.whattowatch.ui.presenter.PersonPresenter;
 import com.example.whattowatch.ui.presenter.SearchPresenter;
 
 import javax.inject.Singleton;
@@ -23,4 +24,5 @@ public interface AppComponent {
     void inject(MovieListPresenter movieListPresenter);
     void inject(DetailPresenter detailPresenter);
     void inject(SearchPresenter searchPresenter);
+    void inject(PersonPresenter personPresenter);
 }

@@ -6,4 +6,5 @@
     <color name="blck">#000000</color>
     <color name="wihte">#FFFF</color>
     <color name="gray">#7C7C7C</color>
+    <color name="back_gray">#777777</color>
 </resources>

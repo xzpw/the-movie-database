@@ -8,6 +8,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.whattowatch.App;
 import com.example.whattowatch.database.MovieDao;
+import com.example.whattowatch.model.mymodel.MyCastModel;
 import com.example.whattowatch.model.mymodel.MyDetailModel;
 import com.example.whattowatch.model.mymodel.MyVideoModel;
 import com.example.whattowatch.repository.MoviesRepo;
@@ -31,6 +32,7 @@ public class DetailPresenter extends MvpPresenter<DetailMovieView> {
     private int MOVIE_ID;
     private MyDetailModel data = null;
     private List<MyVideoModel> videos = new ArrayList<>();
+    private List<MyCastModel> casts = new ArrayList<>();
 
     @Inject
     public MoviesRepo moviesRepo;
@@ -102,5 +104,18 @@ public class DetailPresenter extends MvpPresenter<DetailMovieView> {
                                 Log.e("mylog",error.getMessage());
                             } );
         compositeDisposable.add(d);
+
+                    d = moviesRepo.getMovieCasts(id)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(castModels -> {
+                                    casts = castModels;
+                                    Log.d("mylog","castSize " + casts.size());
+                                    getViewState().showMovieCast(casts);
+                                    },error ->{
+                                        getViewState().showErrorCast();
+                                        Log.e("mylog",error.getMessage());
+                                    }
+                            );
     }
 }

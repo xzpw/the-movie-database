@@ -5,10 +5,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,8 +25,10 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bumptech.glide.Glide;
 import com.example.whattowatch.R;
 import com.example.whattowatch.api.IMovieAPI;
+import com.example.whattowatch.model.mymodel.MyCastModel;
 import com.example.whattowatch.model.mymodel.MyDetailModel;
 import com.example.whattowatch.model.mymodel.MyVideoModel;
+import com.example.whattowatch.ui.adaptor.CastAdaptor;
 import com.example.whattowatch.ui.adaptor.VideoAdapter;
 import com.example.whattowatch.ui.presenter.DetailPresenter;
 import com.example.whattowatch.ui.view.DetailMovieView;
@@ -36,7 +42,7 @@ public class DetailFragment extends BaseFragment implements DetailMovieView{
     private TextView tvTitle, tvDate, tvOverView;
     private ImageView ivPoster, ivBackDrop;
     private RatingBar rateBar;
-    private RecyclerView rvTrailerVideo;
+    private RecyclerView rvTrailerVideo , rvCast;
     private FloatingActionButton fabFavotite;
    // private SwipeRefreshLayout swipeRefreshLayout;
     @InjectPresenter
@@ -63,6 +69,8 @@ public class DetailFragment extends BaseFragment implements DetailMovieView{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+
         View view = inflater.inflate(R.layout.detail_fragment_scrolling
                 ,container,false);
         return view;
@@ -98,6 +106,12 @@ public class DetailFragment extends BaseFragment implements DetailMovieView{
         fabFavotite = view.findViewById(R.id.fab);
         fabFavotite.setOnClickListener(l -> presenter.add2Favorites());
 
+        rvCast = view.findViewById(R.id.rv_cast);
+        LinearLayoutManager layoutManagerCast = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        rvCast.setLayoutManager(layoutManagerCast);
+        SnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(rvCast);
+
     }
 
 
@@ -126,9 +140,21 @@ public class DetailFragment extends BaseFragment implements DetailMovieView{
 
     }
 
+
+
     @Override
     public void showMovieTrailer(List<MyVideoModel> videoModel) {
         rvTrailerVideo.setAdapter(new VideoAdapter(videoModel));
+    }
+
+    @Override
+    public void showMovieCast(List<MyCastModel> castModel) {
+        rvCast.setAdapter(new CastAdaptor(castModel, getRouter()));
+    }
+
+    @Override
+    public void showErrorCast() {
+
     }
 
     @Override

@@ -2,11 +2,15 @@ package com.example.whattowatch.repository;
 
 import android.util.Log;
 
+import com.example.whattowatch.model.mappers.CastMapper;
 import com.example.whattowatch.model.mappers.DetailMapper;
 import com.example.whattowatch.model.mappers.MovieMapper;
+import com.example.whattowatch.model.mappers.PersonMapper;
 import com.example.whattowatch.model.mappers.VideoMapper;
+import com.example.whattowatch.model.mymodel.MyCastModel;
 import com.example.whattowatch.model.mymodel.MyDetailModel;
 import com.example.whattowatch.model.mymodel.MyMovieModel;
+import com.example.whattowatch.model.mymodel.MyPersonModel;
 import com.example.whattowatch.model.mymodel.MyVideoModel;
 
 import java.util.List;
@@ -79,5 +83,19 @@ public class MoviesRepo {
     public Completable add2Favorites(MyDetailModel detailModel){
         Log.d("mylog",detailModel.getName());
         return mLocalMovieSource.insertMovie2Favorites(detailModel);
+    }
+
+    public Flowable<List<MyCastModel>> getMovieCasts(Integer id){
+        return mRemoteMovieSource.getMovieCredits(id)
+                .map(data ->{
+                    return CastMapper.convertListMyCastModel(data.getCast());
+                });
+    }
+
+    public Flowable<MyPersonModel> getPersonDetail(int id){
+        return mRemoteMovieSource.getPersonDetail(id)
+                .map(data ->{
+                    return PersonMapper.convertPerson(data);
+                });
     }
 }

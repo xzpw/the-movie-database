@@ -10,4 +10,6 @@ public interface Router {
     void showFavorites();
 
     void showSearch();
+
+    void showPerson(int id);
 }

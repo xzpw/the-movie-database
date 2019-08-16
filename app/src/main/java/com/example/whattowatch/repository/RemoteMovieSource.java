@@ -1,10 +1,14 @@
 package com.example.whattowatch.repository;
 
 import com.example.whattowatch.api.IMovieAPI;
+import com.example.whattowatch.model.response.cradits.MovieCredits;
 import com.example.whattowatch.model.response.detail.DetailMovie;
 import com.example.whattowatch.model.response.list.MoviesObject;
+import com.example.whattowatch.model.response.person.Person;
 import com.example.whattowatch.model.response.video.MovieVideosResponse;
 import com.example.whattowatch.ui.presenter.MovieListPresenter;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -40,6 +44,14 @@ public class RemoteMovieSource {
 
     public Flowable<MoviesObject> searchMovie(String query, int page){
         return api.searchMovie(language,page,query);
+    }
+
+    public Flowable<MovieCredits> getMovieCredits(Integer id){
+        return api.getMovieCredits(id);
+    }
+
+    public Flowable<Person> getPersonDetail(int id){
+        return api.getPersonDetail(id,language);
     }
 
 
