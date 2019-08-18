@@ -12,7 +12,7 @@
         <View
             android:id="@+id/imageButton"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="184dp"
             android:background="@color/blck"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -29,24 +29,26 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
 
-        <TextView
+        <com.google.android.material.chip.Chip
             android:id="@+id/tv_born_place"
-            android:layout_width="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="США.."
-            android:textColor="@color/wihte"
+            android:textColor="@color/blck"
+            app:chipBackgroundColor="@color/colorAccent"
             app:layout_constraintStart_toEndOf="@+id/iv_avatar"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-        <TextView
+        <com.google.android.material.chip.Chip
             android:id="@+id/tv_birthday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="Пол"
-            android:textColor="@color/wihte"
+            app:chipBackgroundColor="@color/colorAccent"
+            android:textColor="@color/blck"
             app:layout_constraintStart_toEndOf="@+id/iv_avatar"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -55,8 +57,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:text="Дата рождения"
+            android:layout_marginTop="24dp"
+            android:textSize="@dimen/text_size_def"
+            android:text="@string/date_of_birth"
             android:textColor="@color/wihte"
             app:layout_constraintStart_toEndOf="@+id/iv_avatar"
             app:layout_constraintTop_toTopOf="parent" />
@@ -78,29 +81,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="44dp"
-            android:text="Место рождения:"
+            android:layout_marginTop="8dp"
+            android:text="@string/place_of_birth"
+            android:textSize="@dimen/text_size_def"
             android:textColor="@color/wihte"
             app:layout_constraintStart_toEndOf="@+id/iv_avatar"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_birthday" />
 
-        <TextView
+        <com.google.android.material.chip.Chip
             android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
             android:textSize="24sp"
+            app:chipBackgroundColor="@color/colorAccent"
             android:text="Биография"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_avatar" />
 
+
         <TextView
             android:id="@+id/tv_bio"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/blck"
+            android:textSize="@dimen/text_size_def"
             android:text="TextView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />

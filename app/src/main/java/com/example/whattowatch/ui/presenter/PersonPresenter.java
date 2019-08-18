@@ -18,7 +18,7 @@ import io.reactivex.schedulers.Schedulers;
 public class PersonPresenter extends MvpPresenter<PersonView> {
     private int PERSON_ID;
     private MyPersonModel person = null;
-    private CompositeDisposable compositeDisposable;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
     MoviesRepo moviesRepo;
@@ -59,6 +59,6 @@ public class PersonPresenter extends MvpPresenter<PersonView> {
                 }, error ->{
                     getViewState().showError();
                 });
-//        compositeDisposable.add(d);
+        compositeDisposable.add(d);
     }
 }

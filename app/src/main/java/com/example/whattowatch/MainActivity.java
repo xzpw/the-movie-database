@@ -43,7 +43,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView{
 
     @Override
     public void showDetailView(int id) {
-        Log.d("mylog","MainActivity showDetailView");
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.cont, DetailFragment.newInstance(id))
@@ -63,7 +63,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView{
 
     @Override
     public void showSearch() {
-        Log.d("mylog","MainActivity showSearch");
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack("Search")

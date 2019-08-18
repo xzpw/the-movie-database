@@ -41,7 +41,6 @@ public class CastAdaptor extends RecyclerView.Adapter<CastAdaptor.CastHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CastHolder holder, int position) {
-        Log.e("mylog","onBind");
         holder.bind(position);
     }
 
@@ -69,6 +68,7 @@ public class CastAdaptor extends RecyclerView.Adapter<CastAdaptor.CastHolder> {
             Glide.with(itemView.getContext())
                     .load(IMovieAPI.BASE_PICTURE+data.get(position).getProfilePath())
                     .fitCenter()
+                    .placeholder(R.drawable.ic_baseline_person_24px)
                     .into(ivCastImage);
         }
     }

@@ -40,4 +40,6 @@ public interface MovieDao {
     @Delete
     void deleteFavorite(MyDetailModel detailModel);
 
+    @Query("SELECT * FROM MyDetailModel WHERE id = :id")
+    Flowable<MyDetailModel> isSaved(int id);
 }

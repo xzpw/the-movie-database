@@ -47,18 +47,17 @@ public class SearchPresenter extends MvpPresenter<MovieListsView> {
                         data ->{
 //                если подгружаем список, то добавляем иначе заменяем
                           if(isPagination){
-
+                              getViewState().showProgres(false);
                               searchList.addAll(data);
-                              Log.d("mylog","isPagination"+ searchList.size());
                               getViewState().onLoaded(searchList);
                           }else {
+                              getViewState().showProgres(false);
                               searchList = data;
-                              Log.d("mylog","Search data size" +data.size());
                               getViewState().showMovies(searchList);
                           }
                         }, error -> {
+                            getViewState().showProgres(false);
                             getViewState().showError();
-                            Log.d("mylog",error.getMessage());
                         }
                 );
        mCompositeDisposable.add(d);

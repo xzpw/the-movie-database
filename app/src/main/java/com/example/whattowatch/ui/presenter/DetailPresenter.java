@@ -13,6 +13,7 @@ import com.example.whattowatch.model.mymodel.MyDetailModel;
 import com.example.whattowatch.model.mymodel.MyVideoModel;
 import com.example.whattowatch.repository.MoviesRepo;
 import com.example.whattowatch.ui.view.DetailMovieView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,7 @@ public class DetailPresenter extends MvpPresenter<DetailMovieView> {
     @Inject
     public MoviesRepo moviesRepo;
 
+    private boolean isSaved = false;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public DetailPresenter(int id){
@@ -49,6 +51,7 @@ public class DetailPresenter extends MvpPresenter<DetailMovieView> {
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
+        checkSavedInDb();
         getViewState().showProgress(true);
     }
 
@@ -68,27 +71,36 @@ public class DetailPresenter extends MvpPresenter<DetailMovieView> {
     }
 
     public void add2Favorites(){
-        Log.d("mylog","Add to Favorites" + data.getName());
 
-        Disposable d = moviesRepo.add2Favorites(data)
-                        .subscribeOn(Schedulers.io())
-                        .subscribe();
-        compositeDisposable.add(d);
+        if(isSaved){
+            moviesRepo.deleteFromFavorites(data)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe();
+            isSaved = false;
+        }else {
+            Disposable d = moviesRepo.add2Favorites(data)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe();
+            compositeDisposable.add(d);
+            isSaved = true;
+        }
+        getViewState().onSave(isSaved);
+
 
     }
 
     public void loadDetailMovie(int id) {
-        Log.e("mylog", "ID movie is " + id);
-
         Disposable d = moviesRepo.getDetailMovieInfo(id)
                   .subscribeOn(Schedulers.io())
                   .observeOn(AndroidSchedulers.mainThread())
                   .subscribe(
                           detailInfo ->{
+                              getViewState().showProgress(false);
                              data = detailInfo;
                              getViewState().showMovieInfo(detailInfo);
                           },
                           error ->{
+                              getViewState().showProgress(false);
                               getViewState().showErrorInfo();
                           }
                   );
@@ -101,7 +113,6 @@ public class DetailPresenter extends MvpPresenter<DetailMovieView> {
                                 getViewState().showMovieTrailer(movieTrailer);
                             }, error->{
                                 getViewState().showErrorTrailer();
-                                Log.e("mylog",error.getMessage());
                             } );
         compositeDisposable.add(d);
 
@@ -110,12 +121,22 @@ public class DetailPresenter extends MvpPresenter<DetailMovieView> {
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(castModels -> {
                                     casts = castModels;
-                                    Log.d("mylog","castSize " + casts.size());
                                     getViewState().showMovieCast(casts);
                                     },error ->{
                                         getViewState().showErrorCast();
-                                        Log.e("mylog",error.getMessage());
                                     }
                             );
+                    compositeDisposable.add(d);
+    }
+
+   private void checkSavedInDb(){
+       Disposable d = moviesRepo.checkSavedFavorites(MOVIE_ID)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe( itIsSaved ->{
+                    isSaved = true;
+                        }
+                );
+       compositeDisposable.add(d);
     }
 }

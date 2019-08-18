@@ -16,7 +16,6 @@ public class MainPresenter extends MvpPresenter<MainView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
         getViewState().showPagerView();// при создании отображает основной экрн
-        Log.d("mylog", "onFirstViewAttach - mainpresenter");
     }
 
 

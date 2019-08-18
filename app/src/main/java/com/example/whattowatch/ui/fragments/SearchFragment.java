@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +33,8 @@ public class SearchFragment extends BaseFragment implements MovieListsView {
     private EndlessScrollListner endlessScrollListner;
     private ListAdaptor listAdaptor;
     private String searchQuery;
+    private ImageView ivCloud;
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -48,7 +52,8 @@ public class SearchFragment extends BaseFragment implements MovieListsView {
         listAdaptor = new ListAdaptor(null, getRouter());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(listAdaptor);
-
+        ivCloud = view.findViewById(R.id.iv_cloud_off_search);
+        progressBar = view.findViewById(R.id.progressBar_search);
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -57,10 +62,10 @@ public class SearchFragment extends BaseFragment implements MovieListsView {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(newText.length() > 2){
+                if(newText.length() > 1){
+                    progressBar.setVisibility(View.VISIBLE);
                     mPresenter.onSearch(newText,1,false);
                     searchQuery = newText;
-                    Log.d("mylog","search + newText");
                     return true;
                 }
                 return false;
@@ -94,19 +99,23 @@ public class SearchFragment extends BaseFragment implements MovieListsView {
 
     @Override
     public void showProgres(boolean isVisible) {
-
+        if(isVisible) {
+            progressBar.setVisibility(View.VISIBLE);
+        }else {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
     public void showMovies(List<MyMovieModel> movies) {
-        Log.d("mylog","searchFragment item:"+movies.size() );
+        ivCloud.setVisibility(View.INVISIBLE);
         listAdaptor.setMovieList(movies);
         listAdaptor.notifyDataSetChanged();
     }
 
     @Override
     public void showError() {
-
+        ivCloud.setVisibility(View.VISIBLE);
     }
 
     @Override

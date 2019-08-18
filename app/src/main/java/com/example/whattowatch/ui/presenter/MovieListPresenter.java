@@ -60,14 +60,12 @@ public class MovieListPresenter extends MvpPresenter<MovieListsView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
         getViewState().showProgres(true);
-        Log.d(LoG, "onFistViewAttach");
 
     }
 
     @Override
     public void attachView(MovieListsView view) {
         super.attachView(view);
-        Log.d(LoG, "attachView");
         if(data.isEmpty()){             //Для устранения множественных загрузок
             loadMovieList();
         }   else  {
@@ -78,7 +76,6 @@ public class MovieListPresenter extends MvpPresenter<MovieListsView> {
 
 
     public void loadMovieList() {
-        Log.d(LoG,"loadMovieList()");
     //Для загрузки и обновления первой страницы
         Disposable d;
         if(SECTION_TYPE != Type.FAVORITE){
@@ -115,7 +112,6 @@ public class MovieListPresenter extends MvpPresenter<MovieListsView> {
 
 
     public void loadMovieList( int page) {
-        Log.d(LoG,"loadMovieList()");
         // Метод для пагинации
         Disposable d = moviesRepo.getMoviesPageByType(SECTION_TYPE.getSection(),page)
                 .subscribeOn(Schedulers.io())

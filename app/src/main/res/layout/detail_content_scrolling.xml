@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:numStars="10"
-                android:rating="7"
+                android:rating="0"
                 style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small"
                 android:layout_marginStart="8dp"
                 android:layout_below="@id/detail_title"
@@ -63,6 +63,30 @@
                 android:layout_toRightOf="@id/poster"
                 android:layout_marginStart="8dp"/>
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/detail_info_error"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible">
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="128dp"
+                    android:src="@drawable/ic_cloud_off_black_24dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="84dp"
+                        android:textSize="32dp"
+                        android:text="Кина не будет :("/>
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.cardview.widget.CardView>
+
         </RelativeLayout>
 
         <com.google.android.material.chip.Chip
@@ -78,13 +102,13 @@
             android:text="Трейлеры:"/>
 
 
+
             <androidx.recyclerview.widget.RecyclerView
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/rv_video_trailer"
                 android:background="@color/wihte">
-
             </androidx.recyclerview.widget.RecyclerView>
 
 

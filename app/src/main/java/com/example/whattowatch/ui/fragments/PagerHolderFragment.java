@@ -28,14 +28,12 @@ public class PagerHolderFragment extends BaseFragment implements View.OnClickLis
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.e("mylog","PagerHolderFragment onCrateView()");
         return inflater.inflate(R.layout.pager_fragment,container,false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.e("mylog","PagerHolderFragment onViewCreated");
         initView(view);
 
     }
@@ -43,13 +41,11 @@ public class PagerHolderFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.e("mylog","PagerHolderFragment onDestroyVeiw()");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("mylog","PagerHolderFragment onResume");
     }
 
     private void initView(@NonNull View view) {
@@ -85,7 +81,6 @@ public class PagerHolderFragment extends BaseFragment implements View.OnClickLis
                 break;
             case R.id.icon_iv_favorite:
                 getRouter().showFavorites();
-                Log.d("mylog","showFavorites");
                 break;
         }
 

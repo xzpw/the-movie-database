@@ -59,9 +59,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
             String thumbnailKey = data.get(position).getKey();
             Uri uri = Uri.parse(String
                     .format(RemoteMovieSource.VIDEO_YOUTUBE_THUMBNAIL,thumbnailKey));
-            Log.d("mylog",uri.toString());
+
             Glide.with(itemView.getContext())
                     .load(uri)
+                    .fitCenter()
+                    .placeholder(R.drawable.ic_baseline_ondemand_video_24px)
                     .into(ivVideo);
 
             itemView.setOnClickListener(l->{

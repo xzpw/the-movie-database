@@ -53,4 +53,8 @@ public class LocalMovieSource {
     public Flowable<List<MyDetailModel>> getAllFavorites(){
         return dao.getAllFavorites();
     }
+
+    public Flowable<MyDetailModel> checkSavedFavorites(int id){
+        return dao.isSaved(id);
+    }
 }

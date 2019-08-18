@@ -98,4 +98,12 @@ public class MoviesRepo {
                     return PersonMapper.convertPerson(data);
                 });
     }
+
+    public Flowable<MyDetailModel> checkSavedFavorites(int id){
+        return mLocalMovieSource.checkSavedFavorites(id);
+    }
+
+    public Completable deleteFromFavorites(MyDetailModel detailModel){
+        return mLocalMovieSource.deleteFromFavorites(detailModel);
+    }
 }

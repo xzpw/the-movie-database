@@ -1,8 +1,11 @@
 package com.example.whattowatch.ui.fragments;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -33,6 +36,7 @@ import com.example.whattowatch.ui.adaptor.VideoAdapter;
 import com.example.whattowatch.ui.presenter.DetailPresenter;
 import com.example.whattowatch.ui.view.DetailMovieView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -44,13 +48,14 @@ public class DetailFragment extends BaseFragment implements DetailMovieView{
     private RatingBar rateBar;
     private RecyclerView rvTrailerVideo , rvCast;
     private FloatingActionButton fabFavotite;
+    private CardView cvInfoError;
    // private SwipeRefreshLayout swipeRefreshLayout;
+
     @InjectPresenter
     DetailPresenter presenter;
 
     @ProvidePresenter()
     DetailPresenter provideDetailPresenter(){
-        Log.e("myLog", "Передаем в конструктор " + getArguments().getInt(ARG_MOVIE_ID));
         return new DetailPresenter(getArguments().getInt(ARG_MOVIE_ID));
     }
 
@@ -93,16 +98,19 @@ public class DetailFragment extends BaseFragment implements DetailMovieView{
         ivBackDrop = view.findViewById(R.id.backdrop);
         ivPoster = view.findViewById(R.id.poster);
         tvDate = view.findViewById(R.id.detail_date);
+
         //tvRate = view.findViewById(R.id.detail_rate);
         tvTitle = view.findViewById(R.id.detail_title);
         rateBar = view.findViewById(R.id.detail_rate);
         tvOverView = view.findViewById(R.id.detail_overview);
         //swipeRefreshLayout = view.findViewById(R.id.swipe_container);
-
+        cvInfoError = view.findViewById(R.id.detail_info_error);
         rvTrailerVideo = view.findViewById(R.id.rv_video_trailer);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+
         rvTrailerVideo.setLayoutManager(layoutManager);
         rvTrailerVideo.setItemAnimator(new DefaultItemAnimator());
+
         fabFavotite = view.findViewById(R.id.fab);
         fabFavotite.setOnClickListener(l -> presenter.add2Favorites());
 
@@ -117,11 +125,12 @@ public class DetailFragment extends BaseFragment implements DetailMovieView{
 
     @Override
     public void showProgress(boolean isVisible) {
-
+        showDialog(isVisible);
     }
 
     @Override
     public void showMovieInfo(MyDetailModel movie) {
+        cvInfoError.setVisibility(View.INVISIBLE);
         Glide.with(getContext())
                 .load(IMovieAPI.BASE_PICTURE + movie.getBackdroLink())
                 .fitCenter()
@@ -136,7 +145,6 @@ public class DetailFragment extends BaseFragment implements DetailMovieView{
         tvTitle.setText(movie.getName());
         rateBar.setRating(movie.getRate());
         tvOverView.setText(movie.getOverview());
-
 
     }
 
@@ -159,12 +167,24 @@ public class DetailFragment extends BaseFragment implements DetailMovieView{
 
     @Override
     public void showErrorInfo() {
-
+        cvInfoError.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showErrorTrailer() {
 
+    }
+
+    @Override
+    public void onSave(boolean isSaved) {
+        if(isSaved){
+
+
+            Snackbar.make(getView(),"Добавлено в избранное",2000).show();
+        }else {
+
+            Snackbar.make(getView(),"Удалено с избранного",2000).show();
+        }
     }
 
 

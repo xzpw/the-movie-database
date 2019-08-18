@@ -22,7 +22,6 @@ import com.example.whattowatch.ui.adaptor.ListAdaptor;
 import com.example.whattowatch.model.mymodel.MyMovieModel;
 import com.example.whattowatch.ui.presenter.MovieListPresenter;
 import com.example.whattowatch.ui.view.MovieListsView;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
@@ -68,7 +67,6 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d("mylog", "MovieListFragment: onCreateView");
         initView(view);
     }
 
@@ -76,11 +74,11 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
         mRecyclerView = view.findViewById(R.id.recycler);
         swipeRefreshLayout = view.findViewById(R.id.swipe_container);
         swipeRefreshLayout.setOnRefreshListener(this);
-        progressDialog = new MaterialAlertDialogBuilder(getActivity())
-                .setCancelable(false)
-                .setView(R.layout.dialog_progress)
-                .show();
-        progressDialog.hide();
+//        progressDialog = new MaterialAlertDialogBuilder(getActivity())
+//                .setCancelable(false)
+//                .setView(R.layout.dialog_progress)
+//                .show();
+//        progressDialog.hide();
         initRecycler();
     }
 
@@ -103,7 +101,6 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        Log.e("mylog", "MovieListFragment: onSaveInstanceState");
 
         super.onSaveInstanceState(outState);
 
@@ -112,36 +109,27 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
 
     @Override
     public void showProgres(boolean isVisible) {
-        if (isVisible) {
-            progressDialog.show();
-        } else {
-            progressDialog.hide();
-        }
-
+        showDialog(isVisible);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("mylog","MovieListFragment Adapter count "+ listAdaptor.getItemCount());
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("mylog", "MovieListFragment: onResume()");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("mylog", "MovieListFragment: onDestroy()");
 
     }
 
     @Override
     public void showMovies(List<MyMovieModel> movies) {
-        Log.d(LOG, "showMovies() size: " + movies.size());
         listAdaptor.setMovieList(movies);
         listAdaptor.notifyDataSetChanged();
 

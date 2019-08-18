@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">What to watch</string>
     <string name="tv_search">Search</string>
+    <string name="date_of_birth">Дата рождения</string>
+    <string name="place_of_birth">Место рождения:</string>
+    <string name="search_hint">Введите название фильма..</string>
 
 </resources>

@@ -23,5 +23,7 @@ public interface DetailMovieView extends MvpView {
 
     void showErrorTrailer();
 
+    void onSave(boolean isSaved);
+
 
 }
