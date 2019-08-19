@@ -1,4 +1,4 @@
-# the-movie-database
+# What to watch
 Application for searching movies on themoviedatabase
 
 # Stack
