@@ -9,10 +9,10 @@ import com.example.whattowatch.ui.Router;
 public interface MainView extends MvpView, Router {
 
     @StateStrategyType(SkipStrategy.class)
-    void shwoPagerView();
+    void showPagerView();
 
     void showDetailView(int idMovie); // будет принимать итем для детализации
 
-    void showFavorits();
+    void showFavorites();
 
 }

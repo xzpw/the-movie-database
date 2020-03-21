@@ -60,11 +60,13 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:rippleColor="#000000"
+        android:backgroundTint="@color/colorAccent"
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_menu_save" />
+        app:srcCompat="@android:drawable/star_big_off"
+        android:tint="@color/gray"
+        />
 
 
 

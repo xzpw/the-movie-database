@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -21,9 +20,8 @@ import com.example.whattowatch.R;
 import com.example.whattowatch.ui.adaptor.EndlessScrollListner;
 import com.example.whattowatch.ui.adaptor.ListAdaptor;
 import com.example.whattowatch.model.mymodel.MyMovieModel;
-import com.example.whattowatch.ui.presenter.MoviesPresenter;
+import com.example.whattowatch.ui.presenter.MovieListPresenter;
 import com.example.whattowatch.ui.view.MovieListsView;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
@@ -33,11 +31,11 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
     private static final String LOG = "mylog";
 
     @InjectPresenter
-    MoviesPresenter mMoviesPresenter;
+    MovieListPresenter mMovieListPresenter;
 
     @ProvidePresenter()
-    MoviesPresenter provideMoviesPresenter() {
-        return new MoviesPresenter(getArguments().getInt(ARG_FRAGMENT_NUMBER));  // передача начальных параметров в презентор
+    MovieListPresenter provideMoviesPresenter() {
+        return new MovieListPresenter(getArguments().getInt(ARG_FRAGMENT_NUMBER));  // передача начальных параметров в презентор
     }
 
     private RecyclerView mRecyclerView;
@@ -76,11 +74,11 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
         mRecyclerView = view.findViewById(R.id.recycler);
         swipeRefreshLayout = view.findViewById(R.id.swipe_container);
         swipeRefreshLayout.setOnRefreshListener(this);
-        progressDialog = new MaterialAlertDialogBuilder(getActivity())
-                .setCancelable(false)
-                .setView(R.layout.dialog_progress)
-                .show();
-        progressDialog.hide();
+//        progressDialog = new MaterialAlertDialogBuilder(getActivity())
+//                .setCancelable(false)
+//                .setView(R.layout.dialog_progress)
+//                .show();
+//        progressDialog.hide();
         initRecycler();
     }
 
@@ -94,9 +92,8 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
             @Override
             public void loadMore(int page) {
                 //переопределили абстрактрый метод, каждый раз инкриментируем страницу и загружаем
-                mMoviesPresenter.loadMovieList(page);
+                mMovieListPresenter.loadMovieList(page);
                 mRecyclerView.getAdapter().notifyDataSetChanged();
-                Toast.makeText(getContext(), "Loading..", Toast.LENGTH_SHORT).show();
             }
         };
         mRecyclerView.addOnScrollListener(endlessScrollListner);
@@ -104,30 +101,35 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+
         super.onSaveInstanceState(outState);
 
     }
 
+
     @Override
     public void showProgres(boolean isVisible) {
-        if (isVisible) {
-            progressDialog.show();
-        } else {
-            progressDialog.hide();
-        }
+        showDialog(isVisible);
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("mylog", "MovieListFragment: onResume()");
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
 
     @Override
     public void showMovies(List<MyMovieModel> movies) {
-        Log.d(LOG, "showMovies() size: " + movies.size());
         listAdaptor.setMovieList(movies);
         listAdaptor.notifyDataSetChanged();
 
@@ -156,6 +158,6 @@ public class MovieListFragment extends BaseFragment implements MovieListsView, S
 
     @Override
     public void onRefresh() {
-        mMoviesPresenter.loadMovieList();
+        mMovieListPresenter.loadMovieList();
     }
 }

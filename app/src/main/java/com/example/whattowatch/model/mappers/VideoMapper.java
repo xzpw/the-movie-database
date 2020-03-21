@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VideoMapper {
-   public static MyVideoModel convertToMyVideoModel(MovieVideos movieVideos){
+    public static MyVideoModel convertToMyVideoModel(MovieVideos movieVideos){
 
         return new MyVideoModel(movieVideos.getName(),movieVideos.getKey());
     }
